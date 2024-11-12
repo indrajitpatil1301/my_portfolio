@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
+import { FaUser, FaEnvelope, FaPaperPlane } from 'react-icons/fa';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -30,7 +31,14 @@ const ContactForm = () => {
   };
 
   return (
-    <section id="contactme" className="bg-gray-100 py-20 px-6">
+    <section id="contactme" className="py-20 px-6 bg-gray-100 dark:bg-gray-900">
+      <div className="text-4xl font-extrabold text-center text-gray-800 dark:text-white mb-6">
+        Contact Me <br />
+        <span className="text-gray-500 dark:text-gray-400 text-xl font-medium">
+          Let’s create something amazing together! 🎨
+        </span>
+      </div>
+
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center">
         <motion.div
           className="lg:w-1/2"
@@ -38,60 +46,86 @@ const ContactForm = () => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <img src="indrajit4.jpeg" alt="Contact Illustration" className="w-full h-full rounded-lg shadow-lg" />
+          <img
+            src="indrajit4.jpeg"
+            alt="Contact Illustration"
+            className="w-full h-full rounded-lg shadow-xl transform transition duration-500 hover:scale-105"
+          />
         </motion.div>
+
         <motion.div
           className="lg:w-1/2 lg:pl-12 mt-8 lg:mt-0"
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="text-4xl font-bold text-gray-800 mb-4">Contact Me</h2>
-          <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
-                Name
-              </label>
+          {/* <h2 className="text-4xl font-bold text-white dark:text-gray-800 mb-6">Contact Me</h2> */}
+          <form
+            className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300"
+            onSubmit={handleSubmit}
+          >
+            {/* Name Field */}
+            <div className="relative mb-6">
+              <FaUser className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" />
               <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="name"
                 type="text"
-                placeholder="Your Name"
+                id="name"
                 value={formData.name}
                 onChange={handleChange}
+                className="block w-full py-3 pl-12 pr-4 border-2 border-gray-300 dark:border-gray-700 rounded-md text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                placeholder=" "
               />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-                Email
+              <label
+                htmlFor="name"
+                className="absolute left-12 top-1/2 transform -translate-y-1/2 text-sm text-gray-500 dark:text-gray-400 transition-all duration-200 ease-in-out peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-focus:top-0 peer-focus:text-sm peer-focus:text-blue-500"
+              >
+                Name
               </label>
+            </div>
+
+            {/* Email Field */}
+            <div className="relative mb-6">
+              <FaEnvelope className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" />
               <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="email"
                 type="email"
-                placeholder="Your Email"
+                id="email"
                 value={formData.email}
                 onChange={handleChange}
+                className="block w-full py-3 pl-12 pr-4 border-2 border-gray-300 dark:border-gray-700 rounded-md text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                placeholder=" "
               />
-            </div>
-            <div className="mb-6">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="message">
-                Message
+              <label
+                htmlFor="email"
+                className="absolute left-12 top-1/2 transform -translate-y-1/2 text-sm text-gray-500 dark:text-gray-400 transition-all duration-200 ease-in-out peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-focus:top-0 peer-focus:text-sm peer-focus:text-blue-500"
+              >
+                Email
               </label>
+            </div>
+
+            {/* Message Field */}
+            <div className="relative mb-6">
               <textarea
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="message"
-                rows="5"
-                placeholder="Your Message"
                 value={formData.message}
                 onChange={handleChange}
+                rows="5"
+                className="block w-full py-3 pl-4 pr-4 border-2 border-gray-300 dark:border-gray-700 rounded-md text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                placeholder=" "
               />
+              <label
+                htmlFor="message"
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 text-sm text-gray-500 dark:text-gray-400 transition-all duration-200 ease-in-out peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-focus:top-0 peer-focus:text-sm peer-focus:text-blue-500"
+              >
+                Message
+              </label>
             </div>
+
             <div className="flex items-center justify-between">
               <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 type="submit"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all duration-300 transform hover:scale-105"
               >
+                <FaPaperPlane className="inline-block mr-2" />
                 Send
               </button>
             </div>
