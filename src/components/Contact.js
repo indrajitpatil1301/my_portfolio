@@ -26,9 +26,14 @@ const ContactForm = () => {
     setIsSuccess(false); // Hide success message on form submit
 
     try {
-      await axios.post('http://localhost:5000/send-email', formData);
-      setIsSuccess(true); // Show success message
-      setFormData({ name: '', email: '', message: '' }); // Clear form fields
+      // await axios.post('http://localhost:5000/send-email', formData);
+      // setIsSuccess(true); // Show success message
+      // setFormData({ name: '', email: '', message: '' }); // Clear form fields
+
+      await axios.post('http://3.110.188.192:5000/send-email', formData);
+      alert('Email sent successfully!');
+      setFormData({ name: '', email: '', message: '' });
+      setIsSuccess(true);
     } catch (error) {
       alert('Error sending email.');
       console.error(error);
