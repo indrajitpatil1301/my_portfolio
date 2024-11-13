@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
-import { FaUser, FaEnvelope, FaPaperPlane } from 'react-icons/fa';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +8,9 @@ const ContactForm = () => {
     email: '',
     message: '',
   });
+
+  const [isLoading, setIsLoading] = useState(false); // Track loading state
+  const [isSuccess, setIsSuccess] = useState(false); // Track success message visibility
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -20,25 +22,33 @@ const ContactForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true); // Start loading
+    setIsSuccess(false); // Hide success message on form submit
+
     try {
       await axios.post('http://localhost:5000/send-email', formData);
-      alert('Email sent successfully!');
-      setFormData({ name: '', email: '', message: '' });
+      setIsSuccess(true); // Show success message
+      setFormData({ name: '', email: '', message: '' }); // Clear form fields
     } catch (error) {
       alert('Error sending email.');
       console.error(error);
+    } finally {
+      setIsLoading(false); // Stop loading
     }
   };
 
-  return (
-    <section id="contactme" className="py-20 px-6 bg-gray-100 dark:bg-gray-900">
-      <div className="text-4xl font-extrabold text-center text-gray-800 dark:text-white mb-6">
-        Contact Me <br />
-        <span className="text-gray-500 dark:text-gray-400 text-xl font-medium">
-          Let’s create something amazing together! 🎨
-        </span>
-      </div>
+  // Remove success message after 3 seconds
+  useEffect(() => {
+    if (isSuccess) {
+      const timer = setTimeout(() => {
+        setIsSuccess(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [isSuccess]);
 
+  return (
+    <section id="contactme" className="py-20 px-6 bg-white dark:bg-gray-800">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center">
         <motion.div
           className="lg:w-1/2"
@@ -46,90 +56,85 @@ const ContactForm = () => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <img
-            src="indrajit4.jpeg"
-            alt="Contact Illustration"
-            className="w-full h-full rounded-lg shadow-xl transform transition duration-500 hover:scale-105"
-          />
+          <img src="indrajit4.jpeg" alt="Contact Illustration" className="w-full h-full rounded-lg shadow-xl" />
         </motion.div>
-
         <motion.div
           className="lg:w-1/2 lg:pl-12 mt-8 lg:mt-0"
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
         >
-          {/* <h2 className="text-4xl font-bold text-white dark:text-gray-800 mb-6">Contact Me</h2> */}
-          <form
-            className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300"
-            onSubmit={handleSubmit}
-          >
-            {/* Name Field */}
-            <div className="relative mb-6">
-              <FaUser className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" />
-              <input
-                type="text"
-                id="name"
-                value={formData.name}
-                onChange={handleChange}
-                className="block w-full py-3 pl-12 pr-4 border-2 border-gray-300 dark:border-gray-700 rounded-md text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                placeholder=" "
-              />
-              <label
-                htmlFor="name"
-                className="absolute left-12 top-1/2 transform -translate-y-1/2 text-sm text-gray-500 dark:text-gray-400 transition-all duration-200 ease-in-out peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-focus:top-0 peer-focus:text-sm peer-focus:text-blue-500"
-              >
+          <h2 className="text-4xl font-semibold text-black dark:text-white mb-4 text-center">Contact Me</h2>
+          <form className="bg-white dark:bg-gray-700 p-8 shadow-2xl rounded-xl" onSubmit={handleSubmit}>
+            <div className="mb-6">
+              <label className="flex justify-start text-gray-700 dark:text-gray-300 font-semibold text-lg mb-2" htmlFor="name">
                 Name
               </label>
-            </div>
-
-            {/* Email Field */}
-            <div className="relative mb-6">
-              <FaEnvelope className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" />
               <input
-                type="email"
-                id="email"
-                value={formData.email}
+                className="shadow-md appearance-none border-2 border-gray-300 dark:border-gray-600 rounded-lg w-full py-3 px-4 text-gray-700 dark:text-white dark:bg-gray-800 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all"
+                id="name"
+                type="text"
+                placeholder="Your Name"
+                value={formData.name}
                 onChange={handleChange}
-                className="block w-full py-3 pl-12 pr-4 border-2 border-gray-300 dark:border-gray-700 rounded-md text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                placeholder=" "
               />
-              <label
-                htmlFor="email"
-                className="absolute left-12 top-1/2 transform -translate-y-1/2 text-sm text-gray-500 dark:text-gray-400 transition-all duration-200 ease-in-out peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-focus:top-0 peer-focus:text-sm peer-focus:text-blue-500"
-              >
+            </div>
+            <div className="mb-6">
+              <label className="flex justify-start text-gray-700 dark:text-gray-300 font-semibold text-lg mb-2" htmlFor="email">
                 Email
               </label>
-            </div>
-
-            {/* Message Field */}
-            <div className="relative mb-6">
-              <textarea
-                id="message"
-                value={formData.message}
+              <input
+                className="shadow-md appearance-none border-2 border-gray-300 dark:border-gray-600 rounded-lg w-full py-3 px-4 text-gray-700 dark:text-white dark:bg-gray-800 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all"
+                id="email"
+                type="email"
+                placeholder="Your Email"
+                value={formData.email}
                 onChange={handleChange}
-                rows="5"
-                className="block w-full py-3 pl-4 pr-4 border-2 border-gray-300 dark:border-gray-700 rounded-md text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                placeholder=" "
               />
-              <label
-                htmlFor="message"
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 text-sm text-gray-500 dark:text-gray-400 transition-all duration-200 ease-in-out peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-focus:top-0 peer-focus:text-sm peer-focus:text-blue-500"
-              >
+            </div>
+            <div className="mb-6">
+              <label className="flex justify-start text-gray-700 dark:text-gray-300 font-semibold text-lg mb-2" htmlFor="message">
                 Message
               </label>
+              <textarea
+                className="shadow-md appearance-none border-2 border-gray-300 dark:border-gray-600 rounded-lg w-full py-3 px-4 text-gray-700 dark:text-white dark:bg-gray-800 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all"
+                id="message"
+                rows="5"
+                placeholder="Your Message"
+                value={formData.message}
+                onChange={handleChange}
+              />
             </div>
-
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-center relative">
               <button
+                className={`bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-24 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all ${
+                  isLoading ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
                 type="submit"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all duration-300 transform hover:scale-105"
+                disabled={isLoading} // Disable the button while loading
               >
-                <FaPaperPlane className="inline-block mr-2" />
-                Send
+                {isLoading ? (
+                  <div className="spinner-border animate-spin w-6 h-6 border-4 border-t-4 border-white rounded-full"></div>
+                ) : (
+                  'Send'
+                )}
               </button>
+
+              {/* Spinner Overlay */}
+              {/* {isLoading && (
+                <div className="absolute inset-0 flex items-center justify-center bg-opacity-50 bg-gray-800">
+                  <div className="spinner-border animate-spin w-8 h-8 border-4 border-t-4  rounded-full"></div>
+                </div>
+              )} */}
             </div>
           </form>
+
+          {/* Success message */}
+          {isSuccess && (
+            <div className="mt-6 bg-green-500 text-white p-2 rounded-sm font-semibold text-lg text-center">
+              Email sent successfully!
+            </div>
+          )}
         </motion.div>
       </div>
     </section>
