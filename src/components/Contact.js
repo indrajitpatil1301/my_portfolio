@@ -125,12 +125,12 @@ const ContactForm = () => {
                 )}
               </button>
 
-              {/* Spinner Overlay */}
+              {/* Spinner Overlay
               {isLoading && (
                 <div className="absolute inset-0 flex items-center justify-center bg-opacity-50 bg-gray-800">
                   <div className="spinner-border animate-spin w-8 h-8 border-4 border-t-4 border-white rounded-full"></div>
                 </div>
-              )}
+              )} */}
             </div>
           </form>
 
