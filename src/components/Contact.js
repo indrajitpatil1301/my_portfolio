@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import axios from "axios";
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
+    name: "",
+    email: "",
+    message: "",
   });
 
   const [isLoading, setIsLoading] = useState(false); // Track loading state
@@ -30,12 +30,12 @@ const ContactForm = () => {
       // setIsSuccess(true); // Show success message
       // setFormData({ name: '', email: '', message: '' }); // Clear form fields
 
-      await axios.post('http://3.110.188.192:5000/send-email', formData);
-      alert('Email sent successfully!');
-      setFormData({ name: '', email: '', message: '' });
+      await axios.post("http://3.110.188.192:5000/send-email", formData);
+      // alert('Email sent successfully!');
       setIsSuccess(true);
+      setFormData({ name: "", email: "", message: "" });
     } catch (error) {
-      alert('Error sending email.');
+      alert("Error sending email.");
       console.error(error);
     } finally {
       setIsLoading(false); // Stop loading
@@ -61,7 +61,11 @@ const ContactForm = () => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <img src="indrajit4.jpeg" alt="Contact Illustration" className="w-full h-full rounded-lg shadow-xl" />
+          <img
+            src="indrajit4.jpeg"
+            alt="Contact Illustration"
+            className="w-full h-full rounded-lg shadow-xl"
+          />
         </motion.div>
         <motion.div
           className="lg:w-1/2 lg:pl-12 mt-8 lg:mt-0"
@@ -69,10 +73,18 @@ const ContactForm = () => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="text-4xl font-semibold text-black dark:text-white mb-4 text-center">Contact Me</h2>
-          <form className="bg-white dark:bg-gray-700 p-8 shadow-2xl rounded-xl" onSubmit={handleSubmit}>
+          <h2 className="text-4xl font-semibold text-black dark:text-white mb-4 text-center">
+            Contact Me
+          </h2>
+          <form
+            className="bg-white dark:bg-gray-700 p-8 shadow-2xl rounded-xl"
+            onSubmit={handleSubmit}
+          >
             <div className="mb-6">
-              <label className="flex justify-start text-gray-700 dark:text-gray-300 font-semibold text-lg mb-2" htmlFor="name">
+              <label
+                className="flex justify-start text-gray-700 dark:text-gray-300 font-semibold text-lg mb-2"
+                htmlFor="name"
+              >
                 Name
               </label>
               <input
@@ -85,7 +97,10 @@ const ContactForm = () => {
               />
             </div>
             <div className="mb-6">
-              <label className="flex justify-start text-gray-700 dark:text-gray-300 font-semibold text-lg mb-2" htmlFor="email">
+              <label
+                className="flex justify-start text-gray-700 dark:text-gray-300 font-semibold text-lg mb-2"
+                htmlFor="email"
+              >
                 Email
               </label>
               <input
@@ -98,7 +113,10 @@ const ContactForm = () => {
               />
             </div>
             <div className="mb-6">
-              <label className="flex justify-start text-gray-700 dark:text-gray-300 font-semibold text-lg mb-2" htmlFor="message">
+              <label
+                className="flex justify-start text-gray-700 dark:text-gray-300 font-semibold text-lg mb-2"
+                htmlFor="message"
+              >
                 Message
               </label>
               <textarea
@@ -110,10 +128,10 @@ const ContactForm = () => {
                 onChange={handleChange}
               />
             </div>
-            <div className="flex items-center justify-between relative">
+            <div className="flex items-center justify-center relative">
               <button
-                className={`bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all ${
-                  isLoading ? 'opacity-50 cursor-not-allowed' : ''
+                className={`bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-24 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all ${
+                  isLoading ? "opacity-50 cursor-not-allowed" : ""
                 }`}
                 type="submit"
                 disabled={isLoading} // Disable the button while loading
@@ -121,7 +139,7 @@ const ContactForm = () => {
                 {isLoading ? (
                   <div className="spinner-border animate-spin w-6 h-6 border-4 border-t-4 border-white rounded-full"></div>
                 ) : (
-                  'Send'
+                  "Send"
                 )}
               </button>
 
@@ -132,14 +150,20 @@ const ContactForm = () => {
                 </div>
               )} */}
             </div>
+            <div className="mt-4">
+              {isSuccess && (
+                <div
+                  class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+                  role="alert"
+                >
+                  <span class="font-medium">Success</span> Email Sent
+                  successfully...
+                </div>
+              )}
+            </div>
           </form>
 
           {/* Success message */}
-          {isSuccess && (
-            <div className="mt-6 bg-green-500 text-white p-2 rounded-sm font-semibold text-lg text-center">
-              Email sent successfully!
-            </div>
-          )}
         </motion.div>
       </div>
     </section>
