@@ -30,7 +30,7 @@ const ContactForm = () => {
       // setIsSuccess(true); // Show success message
       // setFormData({ name: '', email: '', message: '' }); // Clear form fields
 
-      await axios.post("http://3.110.188.192:5000/send-email", formData);
+      await axios.post("http://3.108.55.158:5000/send-email", formData);
       // alert('Email sent successfully!');
       setIsSuccess(true);
       setFormData({ name: "", email: "", message: "" });
